@@ -54,8 +54,6 @@ export const server = createServer({
             let sortedUserTodos = [...userTodos];
 
             sortedUserTodos.sort((a, b) => {
-              console.log(a);
-              console.log(b);
               if (a.status === "TODO" && b.status === "DONE") {
                 return -1;
               } else if (a.status === "DONE" && b.status === "TODO") {
