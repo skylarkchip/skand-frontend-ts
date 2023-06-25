@@ -1,5 +1,5 @@
-import React from "react";
-import TodosListItem from "./todos-list-item.component";
+import React from "react"
+import TodosListItem from "./todos-list-item.component"
 
 function TodosList({ todos }: any) {
   return (
@@ -17,7 +17,7 @@ function TodosList({ todos }: any) {
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default TodosList;
+export default TodosList

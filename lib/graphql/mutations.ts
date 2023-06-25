@@ -1,11 +1,11 @@
-import { gql } from "@apollo/client";
+import { gql } from "@apollo/client"
 
 // AUTHENTICATION
 export const AUTHENTICATE_USER = gql`
   mutation Token($email: String!, $password: String!) {
     token(email: $email, password: $password)
   }
-`;
+`
 
 export const CREATE_USER = gql`
   mutation CreateUser($email: String!, $password: String!) {
@@ -14,7 +14,7 @@ export const CREATE_USER = gql`
       passwordHashed
     }
   }
-`;
+`
 
 // TODO
 export const CREATE_TODO = gql`
@@ -27,7 +27,7 @@ export const CREATE_TODO = gql`
       updatedAt
     }
   }
-`;
+`
 
 export const UPDATE_TODO = gql`
   mutation UpdateTodo($todo: TodoInput!) {
@@ -39,10 +39,10 @@ export const UPDATE_TODO = gql`
       updatedAt
     }
   }
-`;
+`
 
 export const DELETE_TODO = gql`
   mutation DeleteTodo($id: ID!) {
     deleteTodo(id: $id)
   }
-`;
+`

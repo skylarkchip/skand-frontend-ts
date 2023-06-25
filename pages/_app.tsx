@@ -1,13 +1,13 @@
-import { AppProps } from "next/app";
-import { ApolloProvider } from "@apollo/client";
-import client from "@/client";
-import "@/styles/globals.css";
+import { AppProps } from "next/app"
+import { ApolloProvider } from "@apollo/client"
+import client from "@/client"
+import "@/styles/globals.css"
 
-import "@/lib/server";
+import "@/lib/server"
 
 // Redux
-import { Provider } from "react-redux";
-import store from "@/redux";
+import { Provider } from "react-redux"
+import store from "@/redux"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -16,5 +16,5 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </Provider>
     </ApolloProvider>
-  );
+  )
 }

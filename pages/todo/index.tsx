@@ -1,13 +1,13 @@
-import React from "react";
-import dynamic from "next/dynamic";
+import React from "react"
+import dynamic from "next/dynamic"
 
 // Components
 const TodoPage = dynamic(
   () => import("@/components/page/todo/todo-page.component")
-);
+)
 
 const Todo = () => {
-  return <TodoPage />;
-};
+  return <TodoPage />
+}
 
-export default Todo;
+export default Todo
