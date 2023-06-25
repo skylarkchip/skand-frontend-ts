@@ -1,13 +1,21 @@
 import React from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
+type Pagination = {
+  currentPage: number;
+  totalPage: number;
+  onPageChange: (num: number) => void;
+  onPrevPageChange: () => void;
+  onNextPageChange: () => void;
+};
+
 const Pagination = ({
   currentPage,
   totalPage,
   onPageChange,
   onPrevPageChange,
   onNextPageChange,
-}: any) => {
+}: Pagination) => {
   let pageArray = [];
 
   const range = Math.min(5, totalPage);
@@ -21,6 +29,7 @@ const Pagination = ({
   return (
     <div className="flex w-full justify-center gap-4 mt-4">
       <button
+        data-testid="previous-button"
         className={`group ${currentPage === 1 ? "hidden" : "block"}`}
         onClick={onPrevPageChange}
       >
@@ -41,6 +50,7 @@ const Pagination = ({
         </button>
       ))}
       <button
+        data-testid="next-button"
         className={`group ${currentPage === totalPage ? "hidden" : "block"}`}
         onClick={onNextPageChange}
       >

@@ -103,7 +103,9 @@ function TodoPage() {
             </button>
           </div>
           <InputField
-            type="text"
+            id="todo"
+            name="todo"
+            inputType="text"
             placeholder="create a todo..."
             onChange={onInputFieldChangeHandler}
             value={todoInput}

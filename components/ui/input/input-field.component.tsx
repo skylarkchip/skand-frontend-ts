@@ -1,5 +1,17 @@
-import React from "react";
+import React, { ChangeEvent, FocusEvent } from "react";
 import { BsCircle, BsCheckCircleFill, BsXCircleFill } from "react-icons/bs";
+
+type InputFieldProps = {
+  inputType: string;
+  name: string;
+  id: string;
+  placeholder: string;
+  autoComplete?: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  hasError?: boolean | string;
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+};
 
 function InputField({
   inputType,
@@ -11,8 +23,7 @@ function InputField({
   value,
   hasError,
   onBlur,
-}: any) {
-  console.log(hasError);
+}: InputFieldProps) {
   return (
     <div
       className={`p-4 bg-custom-off-white shadow-md rounded-2xl flex gap-x-4 items-center ${
@@ -22,9 +33,15 @@ function InputField({
       {value === "" ? (
         <BsCircle className="text-custom-pink text-lg" />
       ) : hasError ? (
-        <BsXCircleFill className="text-custom-pink text-lg" />
+        <BsXCircleFill
+          data-testid="error-icon"
+          className="text-custom-pink text-lg"
+        />
       ) : (
-        <BsCheckCircleFill className="text-custom-pink text-lg" />
+        <BsCheckCircleFill
+          data-testid="success-icon"
+          className="text-custom-pink text-lg"
+        />
       )}
       <input
         type={inputType}
