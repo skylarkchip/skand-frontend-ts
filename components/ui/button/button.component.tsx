@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"
 
 type ButtonProps = {
-  isPrimary?: boolean;
-  buttonType?: "button" | "submit" | "reset";
-  onClick?: () => void;
-  children?: React.ReactNode;
-};
+  isPrimary?: boolean
+  buttonType?: "button" | "submit" | "reset"
+  onClick?: () => void
+  children?: React.ReactNode
+}
 
 const Button = ({ isPrimary, buttonType, onClick, children }: ButtonProps) => {
   return (
@@ -20,7 +20,7 @@ const Button = ({ isPrimary, buttonType, onClick, children }: ButtonProps) => {
     >
       {children}
     </button>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

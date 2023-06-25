@@ -1,13 +1,13 @@
-import React from "react";
-import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import React from "react"
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs"
 
 type Pagination = {
-  currentPage: number;
-  totalPage: number;
-  onPageChange: (num: number) => void;
-  onPrevPageChange: () => void;
-  onNextPageChange: () => void;
-};
+  currentPage: number
+  totalPage: number
+  onPageChange: (num: number) => void
+  onPrevPageChange: () => void
+  onNextPageChange: () => void
+}
 
 const Pagination = ({
   currentPage,
@@ -16,14 +16,14 @@ const Pagination = ({
   onPrevPageChange,
   onNextPageChange,
 }: Pagination) => {
-  let pageArray = [];
+  let pageArray = []
 
-  const range = Math.min(5, totalPage);
-  let startPage = Math.max(1, currentPage - Math.floor(range / 2));
-  startPage = Math.min(startPage, totalPage - range + 1);
+  const range = Math.min(5, totalPage)
+  let startPage = Math.max(1, currentPage - Math.floor(range / 2))
+  startPage = Math.min(startPage, totalPage - range + 1)
 
   for (let i = startPage; i < startPage + range; i++) {
-    pageArray.push(i);
+    pageArray.push(i)
   }
 
   return (
@@ -57,7 +57,7 @@ const Pagination = ({
         <BsChevronRight className="text-custom-gray hover:text-custom-pink" />
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default Pagination;
+export default Pagination

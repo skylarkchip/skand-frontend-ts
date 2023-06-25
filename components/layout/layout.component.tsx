@@ -1,14 +1,14 @@
-import React, { PropsWithChildren } from "react";
-import { Inter } from "next/font/google";
+import React, { PropsWithChildren } from "react"
+import { Inter } from "next/font/google"
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-});
+})
 
 type LayoutProps = {
-  children?: React.ReactNode;
-};
+  children?: React.ReactNode
+}
 
 function Layout({ children }: LayoutProps) {
   return (
@@ -17,7 +17,7 @@ function Layout({ children }: LayoutProps) {
     >
       {children}
     </main>
-  );
+  )
 }
 
-export default Layout;
+export default Layout

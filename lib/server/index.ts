@@ -1,35 +1,35 @@
-import { createGraphQLHandler } from "@miragejs/graphql";
-import bcrypt from "bcryptjs";
-import dayjs from "dayjs";
-import { GraphQLError, GraphQLScalarType, Kind } from "graphql";
-import { createServer } from "miragejs";
-import { sign, verify } from "./jwt";
-import { schema } from "./schema";
+import { createGraphQLHandler } from "@miragejs/graphql"
+import bcrypt from "bcryptjs"
+import dayjs from "dayjs"
+import { GraphQLError, GraphQLScalarType, Kind } from "graphql"
+import { createServer } from "miragejs"
+import { sign, verify } from "./jwt"
+import { schema } from "./schema"
 
 const getCurrentUser = async (context: any) => {
-  const token = context.request.requestHeaders.authorization;
-  if (!token) throw new GraphQLError("unauthorized");
-  const payload = await verify(token.slice(7));
-  const user = context.mirageSchema.users.findBy({ id: payload.id });
-  if (!user) throw new GraphQLError("user does not exist");
-  return user;
-};
+  const token = context.request.requestHeaders.authorization
+  if (!token) throw new GraphQLError("unauthorized")
+  const payload = await verify(token.slice(7))
+  const user = context.mirageSchema.users.findBy({ id: payload.id })
+  if (!user) throw new GraphQLError("user does not exist")
+  return user
+}
 
 const DateTimeScalar = new GraphQLScalarType({
   name: "DateTime",
   description: "Datetime string",
   serialize(value: any) {
-    return value.toISOString();
+    return value.toISOString()
   },
   parseValue(value: any) {
-    return value.toString();
+    return value.toString()
   },
   parseLiteral(ast) {
     if (ast.kind === Kind.STRING) {
-      return ast.value;
+      return ast.value
     }
   },
-});
+})
 
 export const server = createServer({
   routes() {
@@ -40,121 +40,121 @@ export const server = createServer({
         DateTime: DateTimeScalar,
         Query: {
           async userTodos(obj: any, args: any, context: any, info: any) {
-            const { page, pageSize, searchKeyword } = args;
-            const user = await getCurrentUser(context);
+            const { page, pageSize, searchKeyword } = args
+            const user = await getCurrentUser(context)
 
-            let userTodos = user.todos.models;
+            let userTodos = user.todos.models
 
             if (searchKeyword) {
               userTodos = userTodos.filter((todo: any) =>
                 todo.content.toLowerCase().includes(searchKeyword.toLowerCase())
-              );
+              )
             }
 
-            let sortedUserTodos = [...userTodos];
+            let sortedUserTodos = [...userTodos]
 
             sortedUserTodos.sort((a, b) => {
               if (a.status === "TODO" && b.status === "DONE") {
-                return -1;
+                return -1
               } else if (a.status === "DONE" && b.status === "TODO") {
-                return 1;
+                return 1
               }
 
-              return b.updatedAt - a.updatedAt;
-            });
+              return b.updatedAt - a.updatedAt
+            })
 
-            const totalCount = sortedUserTodos.length;
-            const totalPage = Math.ceil(totalCount / pageSize);
+            const totalCount = sortedUserTodos.length
+            const totalPage = Math.ceil(totalCount / pageSize)
 
-            const startIndex = (page - 1) * pageSize;
-            const endIndex = startIndex + pageSize;
-            const paginatedTodos = sortedUserTodos.slice(startIndex, endIndex);
+            const startIndex = (page - 1) * pageSize
+            const endIndex = startIndex + pageSize
+            const paginatedTodos = sortedUserTodos.slice(startIndex, endIndex)
 
             return {
               totalCount,
               totalPage,
               currentPage: page,
               todos: paginatedTodos,
-            };
+            }
           },
         },
         Mutation: {
           createUser(obj: any, args: any, context: any, info: any) {
-            const { email, password } = args;
-            const oldUser = context.mirageSchema.users.findBy({ email });
+            const { email, password } = args
+            const oldUser = context.mirageSchema.users.findBy({ email })
             if (oldUser) {
-              throw new GraphQLError("email exists");
+              throw new GraphQLError("email exists")
             }
-            const passwordHashed = bcrypt.hashSync(password, 8);
-            const now = dayjs().valueOf();
+            const passwordHashed = bcrypt.hashSync(password, 8)
+            const now = dayjs().valueOf()
             const user = context.mirageSchema.create("User", {
               email,
               passwordHashed,
               createdAt: now,
-            });
-            return user;
+            })
+            return user
           },
 
           async createTodo(obj: any, args: any, context: any, info: any) {
-            const { content } = args;
-            const user = await getCurrentUser(context);
-            const now = dayjs().valueOf();
+            const { content } = args
+            const user = await getCurrentUser(context)
+            const now = dayjs().valueOf()
             const todo = context.mirageSchema.create("Todo", {
               content,
               user,
               status: "TODO",
               createdAt: now,
               updatedAt: now,
-            });
-            return todo;
+            })
+            return todo
           },
 
           async updateTodo(obj: any, args: any, context: any, info: any) {
             const {
               todo: { id, content, status },
-            } = args;
-            const user = await getCurrentUser(context);
-            const todo = user.todos.models.find((t: any) => t.id === id);
-            if (!todo) throw new GraphQLError("todo does not exist");
-            const now = dayjs().valueOf();
-            if (content) todo.update({ content, updatedAt: now });
-            if (status) todo.update({ status, updatedAt: now });
-            return todo;
+            } = args
+            const user = await getCurrentUser(context)
+            const todo = user.todos.models.find((t: any) => t.id === id)
+            if (!todo) throw new GraphQLError("todo does not exist")
+            const now = dayjs().valueOf()
+            if (content) todo.update({ content, updatedAt: now })
+            if (status) todo.update({ status, updatedAt: now })
+            return todo
           },
 
           async deleteTodo(obj: any, args: any, context: any, info: any) {
-            const { id } = args;
-            const user = await getCurrentUser(context);
-            const todo = user.todos.models.find((t: any) => t.id === id);
-            if (!todo) throw new GraphQLError("todo does not exist");
-            todo.destroy();
-            return true;
+            const { id } = args
+            const user = await getCurrentUser(context)
+            const todo = user.todos.models.find((t: any) => t.id === id)
+            if (!todo) throw new GraphQLError("todo does not exist")
+            todo.destroy()
+            return true
           },
 
           async token(obj: any, args: any, context: any, info: any) {
-            const { email, password } = args;
-            const user = context.mirageSchema.users.findBy({ email });
+            const { email, password } = args
+            const user = context.mirageSchema.users.findBy({ email })
             if (!user)
-              throw new GraphQLError("user does not exist or wrong password");
-            const match = bcrypt.compareSync(password, user.passwordHashed);
+              throw new GraphQLError("user does not exist or wrong password")
+            const match = bcrypt.compareSync(password, user.passwordHashed)
             if (!match)
-              throw new GraphQLError("user does not exist or wrong password");
-            return sign({ id: user.id, email: user.email });
+              throw new GraphQLError("user does not exist or wrong password")
+            return sign({ id: user.id, email: user.email })
           },
         },
       },
-    });
+    })
 
-    this.post("/graphql", graphQLHandler);
-    this.passthrough();
+    this.post("/graphql", graphQLHandler)
+    this.passthrough()
   },
 
   seeds(server) {
-    const now = dayjs().valueOf();
+    const now = dayjs().valueOf()
     server.create("User", {
       email: "test@example.com",
       passwordHashed: bcrypt.hashSync("password", 8),
       createdAt: now,
-    } as any);
+    } as any)
   },
-});
+})
