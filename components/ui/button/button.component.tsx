@@ -1,6 +1,13 @@
 import React from "react";
 
-const Button = ({ isPrimary, buttonType, onClick, children }: any) => {
+type ButtonProps = {
+  isPrimary?: boolean;
+  buttonType?: "button" | "submit" | "reset";
+  onClick?: () => void;
+  children?: React.ReactNode;
+};
+
+const Button = ({ isPrimary, buttonType, onClick, children }: ButtonProps) => {
   return (
     <button
       className={`px-[16px] py-[14px] rounded-2xl shadow-lg border-none ${
