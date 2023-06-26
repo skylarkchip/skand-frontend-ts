@@ -1,9 +1,9 @@
-import React from "react"
-import { render } from "@testing-library/react"
-import "@testing-library/jest-dom/extend-expect"
+import React from "react";
+import { render } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
 
 // Component
-import InputField from "@/components/ui/input/input-field.component"
+import InputField from "@/components/ui/input/input-field.component";
 
 describe("InputField", () => {
   test("renders without issues", () => {
@@ -16,11 +16,11 @@ describe("InputField", () => {
         onChange={() => {}}
         value=""
       />
-    )
+    );
 
-    const inputEl = getByRole("textbox")
-    expect(inputEl).toBeInTheDocument()
-  })
+    const inputEl = getByRole("textbox");
+    expect(inputEl).toBeInTheDocument();
+  });
 
   test("displays error style when hasError is true", () => {
     const { getByRole } = render(
@@ -33,11 +33,11 @@ describe("InputField", () => {
         hasError={true}
         value=""
       />
-    )
+    );
 
-    const inputEl = getByRole("textbox")
-    expect(inputEl).toBeInTheDocument()
-  })
+    const inputEl = getByRole("textbox");
+    expect(inputEl).toBeInTheDocument();
+  });
 
   test("displays error icon when hasError is true", () => {
     const { getByTestId } = render(
@@ -50,11 +50,11 @@ describe("InputField", () => {
         hasError={true}
         value="test"
       />
-    )
+    );
 
-    const inputEl = getByTestId("error-icon")
-    expect(inputEl).toBeInTheDocument()
-  })
+    const inputEl = getByTestId("error-icon");
+    expect(inputEl).toBeInTheDocument();
+  });
 
   test("displays success icon when hasError is false", () => {
     const { getByTestId } = render(
@@ -68,9 +68,9 @@ describe("InputField", () => {
         value="test@example.com"
         hasError={false}
       />
-    )
+    );
 
-    const inputEl = getByTestId("success-icon")
-    expect(inputEl).toBeInTheDocument()
-  })
-})
+    const inputEl = getByTestId("success-icon");
+    expect(inputEl).toBeInTheDocument();
+  });
+});
