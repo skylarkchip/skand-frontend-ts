@@ -1,9 +1,9 @@
-name: Deploy to Vercel
+name: Run Tests
 
 on:
   push:
     branches:
-      - main # change this to your default branch
+      - main
   pull_request:
     types:
       - closed
@@ -19,6 +19,8 @@ jobs:
           node-version: 18.x
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      - name: Install Playwright Browser
+        run: npx playwright install-deps
       - name: Run unit tests
         run: yarn test:unit
       - name: Run end-to-end tests

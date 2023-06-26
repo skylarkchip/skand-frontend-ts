@@ -3,10 +3,14 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - main # change this to your default branch
+      - main
   pull_request:
     types:
       - closed
+  workflow_run:
+    workflows: ["Run Tests"]
+    types:
+      - completed
 
 jobs:
   deploy:
