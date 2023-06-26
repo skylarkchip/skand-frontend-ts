@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import { gql } from "@apollo/client";
 
 // TODO
 export const FETCH_USER_TODOS = gql`
@@ -14,4 +14,4 @@ export const FETCH_USER_TODOS = gql`
       }
     }
   }
-`
+`;

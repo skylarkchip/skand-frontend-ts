@@ -1,93 +1,93 @@
-import React, { useEffect, useState } from "react"
-import dynamic from "next/dynamic"
-import { useRouter } from "next/router"
-import { useMutation, useQuery } from "@apollo/client"
-import Cookies from "js-cookie"
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { useMutation, useQuery } from "@apollo/client";
+import Cookies from "js-cookie";
 
 // Queries
-import { FETCH_USER_TODOS } from "@/lib/graphql/queries"
-import { CREATE_TODO } from "@/lib/graphql/mutations"
+import { FETCH_USER_TODOS } from "@/lib/graphql/queries";
+import { CREATE_TODO } from "@/lib/graphql/mutations";
 
 // Redux
-import { useDispatch, useSelector } from "react-redux"
-import { todoActions } from "@/redux/todo"
+import { useDispatch, useSelector } from "react-redux";
+import { todoActions } from "@/redux/todo";
 
 // Components
-const Layout = dynamic(() => import("@/components/layout/layout.component"))
+const Layout = dynamic(() => import("@/components/layout/layout.component"));
 const InputField = dynamic(
   () => import("@/components/ui/input/input-field.component")
-)
+);
 const SearchForm = dynamic(
   () => import("@/components/ui/forms/search-form.component")
-)
-const Button = dynamic(() => import("@/components/ui/button/button.component"))
+);
+const Button = dynamic(() => import("@/components/ui/button/button.component"));
 const TodosList = dynamic(
   () => import("@/components/ui/todos/todos-list.component")
-)
+);
 const Pagination = dynamic(
   () => import("@/components/ui/pagination/pagination.component")
-)
+);
 
 function TodoPage() {
-  const router = useRouter()
+  const router = useRouter();
 
-  const dispatch = useDispatch()
-  const todos = useSelector((state: any) => state.todo.todos)
-  const searchKeyword = useSelector((state: any) => state.todo.searchKeyword)
-  const currentPage = useSelector((state: any) => state.todo.currentPage)
+  const dispatch = useDispatch();
+  const todos = useSelector((state: any) => state.todo.todos);
+  const searchKeyword = useSelector((state: any) => state.todo.searchKeyword);
+  const currentPage = useSelector((state: any) => state.todo.currentPage);
 
-  const [todoInput, setTodoInput] = useState("")
+  const [todoInput, setTodoInput] = useState("");
 
   // GraphQL Query - Mutation
   const { loading, refetch } = useQuery(FETCH_USER_TODOS, {
     variables: { page: currentPage, pageSize: 3 },
     fetchPolicy: "network-only",
     onCompleted: (data) => {
-      dispatch(todoActions.setTodos(data.userTodos))
+      dispatch(todoActions.setTodos(data.userTodos));
     },
-  })
-  const [createTodo] = useMutation(CREATE_TODO)
+  });
+  const [createTodo] = useMutation(CREATE_TODO);
 
   useEffect(() => {
-    refetch()
-  }, [refetch])
+    refetch();
+  }, [refetch]);
 
   const onInputFieldChangeHandler = (e: any) => {
-    setTodoInput(e.target.value)
-  }
+    setTodoInput(e.target.value);
+  };
 
   const onTodoAddHandler = () => {
     if (todoInput !== "") {
       createTodo({
         variables: { content: todoInput },
-      })
-      setTodoInput("")
-      refetch({ page: 1, pageSize: 3, searchKeyword } as any)
+      });
+      setTodoInput("");
+      refetch({ page: 1, pageSize: 3, searchKeyword } as any);
     }
-  }
+  };
 
   const onPageChangeHandler = (num: number) => {
-    dispatch(todoActions.setCurrentPage(num))
-    refetch({ page: num, pageSize: 3, searchKeyword } as any)
-  }
+    dispatch(todoActions.setCurrentPage(num));
+    refetch({ page: num, pageSize: 3, searchKeyword } as any);
+  };
 
   const onPrevPageChangeHandler = () => {
-    dispatch(todoActions.setCurrentPage(currentPage - 1))
-    refetch({ page: currentPage - 1, pageSize: 3, searchKeyword } as any)
-  }
+    dispatch(todoActions.setCurrentPage(currentPage - 1));
+    refetch({ page: currentPage - 1, pageSize: 3, searchKeyword } as any);
+  };
 
   const onNextPageChangeHandler = () => {
-    dispatch(todoActions.setCurrentPage(currentPage + 1))
-    refetch({ page: currentPage + 1, pageSize: 3, searchKeyword } as any)
-  }
+    dispatch(todoActions.setCurrentPage(currentPage + 1));
+    refetch({ page: currentPage + 1, pageSize: 3, searchKeyword } as any);
+  };
 
   const onSignOutHandler = () => {
-    Cookies.remove("token")
-    dispatch(todoActions.setTodos([]))
-    dispatch(todoActions.setSearchKeyword(""))
-    dispatch(todoActions.setCurrentPage(1))
-    router.replace("/")
-  }
+    Cookies.remove("token");
+    dispatch(todoActions.setTodos([]));
+    dispatch(todoActions.setSearchKeyword(""));
+    dispatch(todoActions.setCurrentPage(1));
+    router.replace("/");
+  };
 
   return (
     <Layout>
@@ -141,7 +141,7 @@ function TodoPage() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default TodoPage
+export default TodoPage;

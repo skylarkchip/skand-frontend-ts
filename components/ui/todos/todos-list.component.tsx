@@ -1,9 +1,12 @@
-import React from "react"
-import TodosListItem from "./todos-list-item.component"
+import React from "react";
+import dynamic from "next/dynamic";
+
+// Components
+const TodosListItem = dynamic(() => import("./todos-list-item.component"));
 
 function TodosList({ todos }: any) {
   return (
-    <div className="w-full flex flex-col gap-y-8">
+    <div className="w-full flex flex-col gap-y-8 todo-list">
       {todos.length > 0 ? (
         todos.map((todo: any) => <TodosListItem key={todo.id} todo={todo} />)
       ) : (
@@ -17,7 +20,7 @@ function TodosList({ todos }: any) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default TodosList
+export default TodosList;

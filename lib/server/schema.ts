@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import { gql } from "@apollo/client";
 
 export const schema = gql`
   scalar DateTime
@@ -53,4 +53,4 @@ export const schema = gql`
     deleteTodo(id: ID!): Boolean
     token(email: String!, password: String!): String
   }
-`
+`;

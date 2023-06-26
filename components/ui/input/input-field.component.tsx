@@ -1,17 +1,17 @@
-import React, { ChangeEvent, FocusEvent } from "react"
-import { BsCircle, BsCheckCircleFill, BsXCircleFill } from "react-icons/bs"
+import React, { ChangeEvent, FocusEvent } from "react";
+import { BsCircle, BsCheckCircleFill, BsXCircleFill } from "react-icons/bs";
 
 type InputFieldProps = {
-  inputType: string
-  name: string
-  id: string
-  placeholder: string
-  autoComplete?: string
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
-  value: string
-  hasError?: boolean | string
-  onBlur?: (event: FocusEvent<HTMLInputElement>) => void
-}
+  inputType: string;
+  name: string;
+  id: string;
+  placeholder: string;
+  autoComplete?: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  hasError?: boolean | string;
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+};
 
 function InputField({
   inputType,
@@ -55,7 +55,7 @@ function InputField({
         onBlur={onBlur}
       />
     </div>
-  )
+  );
 }
 
-export default InputField
+export default InputField;

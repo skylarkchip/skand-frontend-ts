@@ -1,74 +1,74 @@
-import React, { useState } from "react"
-import dynamic from "next/dynamic"
-import { ErrorMessage, Form, Formik } from "formik"
-import { useRouter } from "next/router"
-import { useMutation } from "@apollo/client"
-import Cookies from "js-cookie"
-import * as Yup from "yup"
+import React, { useState } from "react";
+import dynamic from "next/dynamic";
+import { ErrorMessage, Form, Formik } from "formik";
+import { useRouter } from "next/router";
+import { useMutation } from "@apollo/client";
+import Cookies from "js-cookie";
+import * as Yup from "yup";
 
 // GraphQL
-import { AUTHENTICATE_USER, CREATE_USER } from "@/lib/graphql/mutations"
+import { AUTHENTICATE_USER, CREATE_USER } from "@/lib/graphql/mutations";
 
 // Components
-const InputField = dynamic(() => import("../input/input-field.component"))
-const Button = dynamic(() => import("../button/button.component"))
+const InputField = dynamic(() => import("../input/input-field.component"));
+const Button = dynamic(() => import("../button/button.component"));
 
 const AuthForm = () => {
-  const router = useRouter()
-  const [error, setError] = useState("")
+  const router = useRouter();
+  const [error, setError] = useState("");
 
-  const [authenticateUser] = useMutation(AUTHENTICATE_USER)
-  const [registerUser] = useMutation(CREATE_USER)
+  const [authenticateUser] = useMutation(AUTHENTICATE_USER);
+  const [registerUser] = useMutation(CREATE_USER);
 
   const onHandleSubmit = async (values: any, { setSubmitting }: any) => {
-    const { email, password, isSignUp } = values
+    const { email, password, isSignUp } = values;
 
     if (!isSignUp) {
       try {
         const { data } = await authenticateUser({
           variables: { email, password },
-        })
+        });
 
         if (data.token) {
-          let token = data.token
+          let token = data.token;
 
-          Cookies.set("token", token)
-          router.push("/todo")
+          Cookies.set("token", token);
+          router.push("/todo");
         } else {
           setError(
             "There seems to be an issue with your request. Please Try Again."
-          )
+          );
         }
       } catch (error) {
-        setError("User does not exist or wrong password.")
+        setError("User does not exist or wrong password.");
       }
     } else {
       try {
         const { data } = await registerUser({
           variables: { email, password },
-        })
+        });
 
         if (data.createUser) {
           const { data: authData } = await authenticateUser({
             variables: { email, password },
-          })
+          });
 
           if (authData.token) {
-            let token = authData.token
+            let token = authData.token;
 
-            Cookies.set("token", token)
-            router.push("/todo")
+            Cookies.set("token", token);
+            router.push("/todo");
           } else {
             setError(
               "There seems to be an issue with your request. Please Try Again."
-            )
+            );
           }
         }
       } catch (error) {
-        setError("E-mail address already exists.")
+        setError("E-mail address already exists.");
       }
     }
-  }
+  };
 
   return (
     <Formik
@@ -131,7 +131,7 @@ const AuthForm = () => {
               <Button
                 buttonType="button"
                 onClick={() => {
-                  formik.setFieldValue("isSignUp", !formik.values.isSignUp)
+                  formik.setFieldValue("isSignUp", !formik.values.isSignUp);
                 }}
               >
                 {formik.values.isSignUp
@@ -143,7 +143,7 @@ const AuthForm = () => {
         </>
       )}
     </Formik>
-  )
-}
+  );
+};
 
-export default AuthForm
+export default AuthForm;

@@ -1,11 +1,11 @@
-import React from "react"
-import dynamic from "next/dynamic"
+import React from "react";
+import dynamic from "next/dynamic";
 
 // Components
-const Layout = dynamic(() => import("@/components/layout/layout.component"))
+const Layout = dynamic(() => import("@/components/layout/layout.component"));
 const AuthForm = dynamic(
   () => import("@/components/ui/forms/auth-form.component")
-)
+);
 
 function Homepage() {
   return (
@@ -17,7 +17,7 @@ function Homepage() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default Homepage
+export default Homepage;

@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext .js,.ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(ts|tsx|css)\"",
     "commit": "cz",
     "test:e2e": "playwright test",
