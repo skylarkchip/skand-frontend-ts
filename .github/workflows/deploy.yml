@@ -24,7 +24,7 @@ jobs:
       - name: Run end-to-end tests
         run: yarn test:e2e
       - name: Install Vercel CLI
-        run: yarn add -g vercel@latest
+        run: yarn install -g vercel@latest
       - name: Pull Vercel environment information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build project artifacts
