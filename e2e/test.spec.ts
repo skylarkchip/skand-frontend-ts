@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("User logs in", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("http://localhost:3000");
 
   await page.fill('input[name="email"]', "test@example.com");
 
@@ -9,9 +9,9 @@ test("User logs in", async ({ page }) => {
 
   await page.click('button[type="submit"]');
 
-  await page.waitForURL("/todo");
+  await page.waitForURL("http://localhost:3000/todo");
 
-  await expect(page).toHaveURL("/todo");
+  await expect(page).toHaveURL("http://localhost:3000/todo");
 
   await page.fill("#todo", "Sample Todo");
 
