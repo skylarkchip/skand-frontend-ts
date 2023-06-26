@@ -9,8 +9,9 @@
     "lint": "next lint",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(ts|tsx|css)\"",
     "commit": "cz",
-    "test": "jest",
-    "coverage": "jest --coverage"
+    "test:e2e": "playwright test",
+    "test:unit": "jest",
+    "coverage:unit": "jest --coverage"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -47,6 +48,7 @@
   "devDependencies": {
     "@babel/types": "^7.22.5",
     "@miragejs/graphql": "^0.1.13",
+    "@playwright/test": "^1.35.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/babel-generator": "^6.25.5",
