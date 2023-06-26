@@ -19,8 +19,12 @@ jobs:
           node-version: 18.x
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Install Playwright Browser
+      - name: Install Playwright
+        run: npx playwright install
+      - name: Install Playwright Dependencies
         run: npx playwright install-deps
+      - name: Updrade playwright
+        run: yarn upgrade playwright
       - name: Run unit tests
         run: yarn test:unit
       - name: Run end-to-end tests
