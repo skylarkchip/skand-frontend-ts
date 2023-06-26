@@ -18,13 +18,13 @@ jobs:
         with:
           node-version: 18.x
       - name: Install dependencies
-        run: yarn ci
+        run: yarn install
       - name: Run unit tests
         run: yarn test:unit
       - name: Run end-to-end tests
         run: yarn test:e2e
       - name: Install Vercel CLI
-        run: yarn install -g vercel@latest
+        run: yarn add -g vercel@latest
       - name: Pull Vercel environment information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build project artifacts
